@@ -11,6 +11,7 @@ A sample of the CLI usage using Fire:
 ```
 python noaa_apt_decoder.py --in_path=06261434.wav --out_path image.png --black_point 5 --white_point 95 --components ["image_a","image_b"]
 ```
+![](https://raw.githubusercontent.com/peterbbryan/NOAA-APT-decoder-experiments/master/sample_output.png)
 
 # Special thanks
 I found the following resources invaluable:
