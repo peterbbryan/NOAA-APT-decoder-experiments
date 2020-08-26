@@ -16,7 +16,7 @@ python noaa_apt_decoder.py --in_path=06261434.wav --out_path image.png --black_p
 ```
 python noaa_apt_decoder.py --in_path 06261434.wav --out_path temp.png --black_point 5 --white_point 70 --components ["image_a"] --colorize True
 ```
-![](https://raw.githubusercontent.com/peterbbryan/NOAA-APT-decoder-experiments/master/sample_output.png)
+![](https://raw.githubusercontent.com/peterbbryan/NOAA-APT-decoder-experiments/master/sample_colorized.png)
 
 # Special thanks
 I found the following resources invaluable:
