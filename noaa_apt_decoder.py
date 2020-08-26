@@ -1,6 +1,8 @@
 from typing import List, Optional
 
 import fire
+import matplotlib
+import matplotlib.pyplot as plt
 import numpy as np
 import scipy.ndimage
 from PIL import Image
@@ -191,10 +193,26 @@ def save_image(arr: np.ndarray, out_path: str) -> None:
     image.save(out_path)
 
 
+def apply_colormap(arr: np.ndarray,
+                   cm: matplotlib.colors.LinearSegmentedColormap = plt.get_cmap('gist_earth')) -> np.ndarray:
+    """ False colorization based on greyscale intensity
+
+    :param arr: 2D image array
+    :param cm: map between greyscale and colorized
+    :return: colorized array
+    """
+
+    # Get the color map by name:
+    colorized = cm(arr)
+
+    return colorized[:, :, :3] * 255
+
+
 def decode_noaa_audio_to_image(*, in_path: str, out_path: str,
                                black_point: int = 5,
                                white_point: int = 95,
-                               components: Optional[List[str]] = None) -> None:
+                               components: Optional[List[str]] = None,
+                               colorize: bool = False) -> None:
     """ Command line interface call for NOAA  apt processing
 
     :param in_path: path to the input audio file
@@ -203,6 +221,7 @@ def decode_noaa_audio_to_image(*, in_path: str, out_path: str,
     :param white_point: dynamic range upper bound, percent
     :param components: image components to include ('sync_a', 'space_a', 'image_a',
                        'telemetry_a', 'sync_b', 'space_b', 'image_b', 'telemetry_b')
+    :param colorize: boolean for colorization
     """
 
     # components of the image to include
@@ -229,6 +248,10 @@ def decode_noaa_audio_to_image(*, in_path: str, out_path: str,
 
     # select the image components to include
     image_components = select_image_components(denoised, components)
+
+    # colorize greyscale image if selected
+    if colorize:
+        image_components = apply_colormap(image_components)
 
     # write numpy array to image file
     save_image(image_components, out_path=out_path)
